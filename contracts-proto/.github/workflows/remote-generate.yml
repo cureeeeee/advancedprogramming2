@@ -1,0 +1,48 @@
+name: Remote Generate Protobuf
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "proto/**"
+      - "buf.yaml"
+      - "buf.gen.yaml"
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout proto repository
+        uses: actions/checkout@v4
+
+      - name: Set up Buf
+        uses: bufbuild/buf-setup-action@v1
+
+      - name: Generate Go code
+        run: buf generate
+
+      - name: Push generated code to generated repository
+        env:
+          GENERATED_REPO: youruser/ap2-contracts-generated
+          GH_PAT: ${{ secrets.GENERATED_REPO_PAT }}
+        run: |
+          set -e
+          rm -rf /tmp/generated-repo
+          git clone https://x-access-token:${GH_PAT}@github.com/${GENERATED_REPO}.git /tmp/generated-repo
+
+          rm -rf /tmp/generated-repo/gen/go
+          mkdir -p /tmp/generated-repo/gen/go
+          cp -R gen/go/* /tmp/generated-repo/gen/go/
+
+          cd /tmp/generated-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add .
+            git commit -m "chore: sync generated protobuf code from proto repo"
+            git push origin main
+          else
+            echo "No generated code changes detected"
+          fi
