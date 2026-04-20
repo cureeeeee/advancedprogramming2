@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/youruser/payment-service/internal/domain"
+	"github.com/cureeeeee/payment-service/internal/domain"
 )
 
 type PaymentRepository interface {
