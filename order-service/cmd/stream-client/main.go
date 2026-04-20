@@ -6,7 +6,7 @@ import (
 	"io"
 	"log"
 
-	orderv1 "github.com/youruser/ap2-contracts-generated/gen/go/order/v1"
+	orderv1 "github.com/cureeeeee/ap2-contracts-generated/gen/go/order/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -27,7 +27,7 @@ func main() {
 	defer conn.Close()
 
 	client := orderv1.NewOrderTrackingServiceClient(conn)
-	stream, err := client.SubscribeToOrderUpdates(context.Background(), &orderv1.OrderRequest{OrderId: *orderID})
+	stream, err := client.SubscribeToOrderUpdates(context.Background(), &orderv1.SubscribeToOrderUpdatesRequest{OrderId: *orderID})
 	if err != nil {
 		log.Fatalf("subscribe: %v", err)
 	}
