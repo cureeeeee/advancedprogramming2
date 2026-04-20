@@ -3,7 +3,7 @@ package memory
 import (
 	"sync"
 
-	"github.com/youruser/payment-service/internal/domain"
+	"github.com/cureeeeee/payment-service/internal/domain"
 )
 
 type PaymentRepository struct {
