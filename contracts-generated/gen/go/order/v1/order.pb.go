@@ -22,27 +22,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type OrderRequest struct {
+type SubscribeToOrderUpdatesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *OrderRequest) Reset() {
-	*x = OrderRequest{}
+func (x *SubscribeToOrderUpdatesRequest) Reset() {
+	*x = SubscribeToOrderUpdatesRequest{}
 	mi := &file_order_v1_order_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *OrderRequest) String() string {
+func (x *SubscribeToOrderUpdatesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*OrderRequest) ProtoMessage() {}
+func (*SubscribeToOrderUpdatesRequest) ProtoMessage() {}
 
-func (x *OrderRequest) ProtoReflect() protoreflect.Message {
+func (x *SubscribeToOrderUpdatesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -54,19 +54,19 @@ func (x *OrderRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use OrderRequest.ProtoReflect.Descriptor instead.
-func (*OrderRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use SubscribeToOrderUpdatesRequest.ProtoReflect.Descriptor instead.
+func (*SubscribeToOrderUpdatesRequest) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *OrderRequest) GetOrderId() string {
+func (x *SubscribeToOrderUpdatesRequest) GetOrderId() string {
 	if x != nil {
 		return x.OrderId
 	}
 	return ""
 }
 
-type OrderStatusUpdate struct {
+type SubscribeToOrderUpdatesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
@@ -75,20 +75,20 @@ type OrderStatusUpdate struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *OrderStatusUpdate) Reset() {
-	*x = OrderStatusUpdate{}
+func (x *SubscribeToOrderUpdatesResponse) Reset() {
+	*x = SubscribeToOrderUpdatesResponse{}
 	mi := &file_order_v1_order_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *OrderStatusUpdate) String() string {
+func (x *SubscribeToOrderUpdatesResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*OrderStatusUpdate) ProtoMessage() {}
+func (*SubscribeToOrderUpdatesResponse) ProtoMessage() {}
 
-func (x *OrderStatusUpdate) ProtoReflect() protoreflect.Message {
+func (x *SubscribeToOrderUpdatesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -100,26 +100,26 @@ func (x *OrderStatusUpdate) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use OrderStatusUpdate.ProtoReflect.Descriptor instead.
-func (*OrderStatusUpdate) Descriptor() ([]byte, []int) {
+// Deprecated: Use SubscribeToOrderUpdatesResponse.ProtoReflect.Descriptor instead.
+func (*SubscribeToOrderUpdatesResponse) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *OrderStatusUpdate) GetOrderId() string {
+func (x *SubscribeToOrderUpdatesResponse) GetOrderId() string {
 	if x != nil {
 		return x.OrderId
 	}
 	return ""
 }
 
-func (x *OrderStatusUpdate) GetStatus() string {
+func (x *SubscribeToOrderUpdatesResponse) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-func (x *OrderStatusUpdate) GetUpdatedAt() *timestamppb.Timestamp {
+func (x *SubscribeToOrderUpdatesResponse) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
 	}
@@ -130,16 +130,16 @@ var File_order_v1_order_proto protoreflect.FileDescriptor
 
 const file_order_v1_order_proto_rawDesc = "" +
 	"\n" +
-	"\x14order/v1/order.proto\x12\border.v1\x1a\x1fgoogle/protobuf/timestamp.proto\")\n" +
-	"\fOrderRequest\x12\x19\n" +
-	"\border_id\x18\x01 \x01(\tR\aorderId\"\x81\x01\n" +
-	"\x11OrderStatusUpdate\x12\x19\n" +
+	"\x14order/v1/order.proto\x12\border.v1\x1a\x1fgoogle/protobuf/timestamp.proto\";\n" +
+	"\x1eSubscribeToOrderUpdatesRequest\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\"\x8f\x01\n" +
+	"\x1fSubscribeToOrderUpdatesResponse\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\x129\n" +
 	"\n" +
-	"updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2h\n" +
-	"\x14OrderTrackingService\x12P\n" +
-	"\x17SubscribeToOrderUpdates\x12\x16.order.v1.OrderRequest\x1a\x1b.order.v1.OrderStatusUpdate0\x01BEZCgithub.com/youruser/ap2-contracts-generated/gen/go/order/v1;orderv1b\x06proto3"
+	"updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\x88\x01\n" +
+	"\x14OrderTrackingService\x12p\n" +
+	"\x17SubscribeToOrderUpdates\x12(.order.v1.SubscribeToOrderUpdatesRequest\x1a).order.v1.SubscribeToOrderUpdatesResponse0\x01BFZDgithub.com/cureeeeee/ap2-contracts-generated/gen/go/order/v1;orderv1b\x06proto3"
 
 var (
 	file_order_v1_order_proto_rawDescOnce sync.Once
@@ -155,14 +155,14 @@ func file_order_v1_order_proto_rawDescGZIP() []byte {
 
 var file_order_v1_order_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_order_v1_order_proto_goTypes = []any{
-	(*OrderRequest)(nil),          // 0: order.v1.OrderRequest
-	(*OrderStatusUpdate)(nil),     // 1: order.v1.OrderStatusUpdate
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
+	(*SubscribeToOrderUpdatesRequest)(nil),  // 0: order.v1.SubscribeToOrderUpdatesRequest
+	(*SubscribeToOrderUpdatesResponse)(nil), // 1: order.v1.SubscribeToOrderUpdatesResponse
+	(*timestamppb.Timestamp)(nil),           // 2: google.protobuf.Timestamp
 }
 var file_order_v1_order_proto_depIdxs = []int32{
-	2, // 0: order.v1.OrderStatusUpdate.updated_at:type_name -> google.protobuf.Timestamp
-	0, // 1: order.v1.OrderTrackingService.SubscribeToOrderUpdates:input_type -> order.v1.OrderRequest
-	1, // 2: order.v1.OrderTrackingService.SubscribeToOrderUpdates:output_type -> order.v1.OrderStatusUpdate
+	2, // 0: order.v1.SubscribeToOrderUpdatesResponse.updated_at:type_name -> google.protobuf.Timestamp
+	0, // 1: order.v1.OrderTrackingService.SubscribeToOrderUpdates:input_type -> order.v1.SubscribeToOrderUpdatesRequest
+	1, // 2: order.v1.OrderTrackingService.SubscribeToOrderUpdates:output_type -> order.v1.SubscribeToOrderUpdatesResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
