@@ -3,7 +3,7 @@ package pubsub
 import (
 	"sync"
 
-	"github.com/youruser/order-service/internal/domain"
+	"github.com/cureeeeee/order-service/internal/domain"
 )
 
 type OrderNotifier struct {
