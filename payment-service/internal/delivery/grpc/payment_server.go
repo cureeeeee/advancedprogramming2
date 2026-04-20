@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	paymentv1 "github.com/youruser/ap2-contracts-generated/gen/go/payment/v1"
-	"github.com/youruser/payment-service/internal/domain"
-	"github.com/youruser/payment-service/internal/usecase"
+	paymentv1 "github.com/cureeeeee/ap2-contracts-generated/gen/go/payment/v1"
+	"github.com/cureeeeee/payment-service/internal/domain"
+	"github.com/cureeeeee/payment-service/internal/usecase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -22,7 +22,7 @@ func NewPaymentServer(uc *usecase.PaymentUseCase) *PaymentServer {
 	return &PaymentServer{uc: uc}
 }
 
-func (s *PaymentServer) ProcessPayment(ctx context.Context, req *paymentv1.PaymentRequest) (*paymentv1.PaymentResponse, error) {
+func (s *PaymentServer) ProcessPayment(ctx context.Context, req *paymentv1.ProcessPaymentRequest) (*paymentv1.ProcessPaymentResponse, error) {
 	if strings.TrimSpace(req.GetOrderId()) == "" {
 		return nil, status.Error(codes.InvalidArgument, "order_id is required")
 	}
@@ -49,7 +49,7 @@ func (s *PaymentServer) ProcessPayment(ctx context.Context, req *paymentv1.Payme
 		return nil, status.Errorf(codes.Internal, "process payment: %v", err)
 	}
 
-	return &paymentv1.PaymentResponse{
+	return &paymentv1.ProcessPaymentResponse{
 		Success:       result.Success,
 		TransactionId: result.TransactionID,
 		Message:       result.Message,
