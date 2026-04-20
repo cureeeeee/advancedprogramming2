@@ -2,15 +2,15 @@ syntax = "proto3";
 
 package payment.v1;
 
-option go_package = "github.com/youruser/ap2-contracts-generated/gen/go/payment/v1;paymentv1";
+option go_package = "github.com/cureeeeee/ap2-contracts-generated/gen/go/payment/v1;paymentv1";
 
 import "google/protobuf/timestamp.proto";
 
 service PaymentService {
-  rpc ProcessPayment(PaymentRequest) returns (PaymentResponse);
+  rpc ProcessPayment(ProcessPaymentRequest) returns (ProcessPaymentResponse);
 }
 
-message PaymentRequest {
+message ProcessPaymentRequest {
   string order_id = 1;
   double amount = 2;
   string currency = 3;
@@ -18,7 +18,7 @@ message PaymentRequest {
   google.protobuf.Timestamp requested_at = 5;
 }
 
-message PaymentResponse {
+message ProcessPaymentResponse {
   bool success = 1;
   string transaction_id = 2;
   string message = 3;
