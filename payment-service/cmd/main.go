@@ -6,11 +6,11 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	paymentv1 "github.com/youruser/ap2-contracts-generated/gen/go/payment/v1"
-	"github.com/youruser/payment-service/internal/config"
-	grpcdelivery "github.com/youruser/payment-service/internal/delivery/grpc"
-	"github.com/youruser/payment-service/internal/repository/memory"
-	"github.com/youruser/payment-service/internal/usecase"
+	paymentv1 "github.com/cureeeeee/ap2-contracts-generated/gen/go/payment/v1"
+	"github.com/cureeeeee/payment-service/internal/config"
+	grpcdelivery "github.com/cureeeeee/payment-service/internal/delivery/grpc"
+	"github.com/cureeeeee/payment-service/internal/repository/memory"
+	"github.com/cureeeeee/payment-service/internal/usecase"
 	"google.golang.org/grpc"
 )
 
