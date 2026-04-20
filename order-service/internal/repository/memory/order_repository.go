@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/youruser/order-service/internal/domain"
+	"github.com/cureeeeee/order-service/internal/domain"
 )
 
 var ErrOrderNotFound = errors.New("order not found")
