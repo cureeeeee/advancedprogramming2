@@ -6,14 +6,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	orderv1 "github.com/youruser/ap2-contracts-generated/gen/go/order/v1"
-	paymentclient "github.com/youruser/order-service/internal/client/payment"
-	"github.com/youruser/order-service/internal/config"
-	grpcdelivery "github.com/youruser/order-service/internal/delivery/grpc"
-	httpdelivery "github.com/youruser/order-service/internal/delivery/http"
-	"github.com/youruser/order-service/internal/pubsub"
-	"github.com/youruser/order-service/internal/repository/memory"
-	"github.com/youruser/order-service/internal/usecase"
+	orderv1 "github.com/cureeeeee/ap2-contracts-generated/gen/go/order/v1"
+	paymentclient "github.com/cureeeeee/order-service/internal/client/payment"
+	"github.com/cureeeeee/order-service/internal/config"
+	grpcdelivery "github.com/cureeeeee/order-service/internal/delivery/grpc"
+	httpdelivery "github.com/cureeeeee/order-service/internal/delivery/http"
+	"github.com/cureeeeee/order-service/internal/pubsub"
+	"github.com/cureeeeee/order-service/internal/repository/memory"
+	"github.com/cureeeeee/order-service/internal/usecase"
 	"google.golang.org/grpc"
 )
 
