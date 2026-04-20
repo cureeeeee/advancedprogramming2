@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/youruser/order-service/internal/domain"
+	"github.com/cureeeeee/order-service/internal/domain"
 )
 
 var ErrValidation = errors.New("validation error")
