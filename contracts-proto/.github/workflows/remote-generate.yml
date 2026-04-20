@@ -24,7 +24,7 @@ jobs:
 
       - name: Push generated code to generated repository
         env:
-          GENERATED_REPO: youruser/ap2-contracts-generated
+          GENERATED_REPO: cureeeeee/ap2-contracts-generated
           GH_PAT: ${{ secrets.GENERATED_REPO_PAT }}
         run: |
           set -e
