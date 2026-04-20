@@ -4,9 +4,9 @@ import (
 	"errors"
 	"strings"
 
-	orderv1 "github.com/youruser/ap2-contracts-generated/gen/go/order/v1"
-	"github.com/youruser/order-service/internal/pubsub"
-	"github.com/youruser/order-service/internal/usecase"
+	orderv1 "github.com/cureeeeee/ap2-contracts-generated/gen/go/order/v1"
+	"github.com/cureeeeee/order-service/internal/pubsub"
+	"github.com/cureeeeee/order-service/internal/usecase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -22,7 +22,7 @@ func NewTrackingServer(uc *usecase.OrderUseCase, notifier *pubsub.OrderNotifier)
 	return &TrackingServer{uc: uc, notifier: notifier}
 }
 
-func (s *TrackingServer) SubscribeToOrderUpdates(req *orderv1.OrderRequest, stream orderv1.OrderTrackingService_SubscribeToOrderUpdatesServer) error {
+func (s *TrackingServer) SubscribeToOrderUpdates(req *orderv1.SubscribeToOrderUpdatesRequest, stream orderv1.OrderTrackingService_SubscribeToOrderUpdatesServer) error {
 	orderID := strings.TrimSpace(req.GetOrderId())
 	if orderID == "" {
 		return status.Error(codes.InvalidArgument, "order_id is required")
@@ -36,7 +36,7 @@ func (s *TrackingServer) SubscribeToOrderUpdates(req *orderv1.OrderRequest, stre
 		return status.Error(codes.Internal, err.Error())
 	}
 
-	if err := stream.Send(&orderv1.OrderStatusUpdate{
+	if err := stream.Send(&orderv1.SubscribeToOrderUpdatesResponse{
 		OrderId:   order.ID,
 		Status:    order.Status,
 		UpdatedAt: timestamppb.New(order.UpdatedAt),
@@ -55,7 +55,7 @@ func (s *TrackingServer) SubscribeToOrderUpdates(req *orderv1.OrderRequest, stre
 			if !ok {
 				return nil
 			}
-			if err := stream.Send(&orderv1.OrderStatusUpdate{
+			if err := stream.Send(&orderv1.SubscribeToOrderUpdatesResponse{
 				OrderId:   update.OrderID,
 				Status:    update.Status,
 				UpdatedAt: timestamppb.New(update.UpdatedAt),
