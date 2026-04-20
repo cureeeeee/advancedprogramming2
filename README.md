@@ -1,23 +1,16 @@
 # AP2 Assignment 2: gRPC Migration & Contract-First Development
-
-Student: Taubakabyl Nurlybek  
-Course: Advanced Programming 2  
-Assignment: 2 (Order & Payment)
-
 ## Repositories
-- Proto Repository (Repository A): https://github.com/youruser/ap2-contracts-proto
-- Generated Code Repository (Repository B): https://github.com/youruser/ap2-contracts-generated
-- Services Repository (this repo): https://github.com/youruser/adp-assignment
-
-Replace `youruser` with your actual GitHub username before submission.
+- Proto Repository (Repository A): https://github.com/cureeeeee/ap2-contracts-proto
+- Generated Code Repository (Repository B): https://github.com/cureeeeee/ap2-contracts-generated
+- Services Repository (this repo): https://github.com/cureeeeee/adp-assignment
 
 ## Contract-First Flow
 1. Maintain only `.proto` files in `contracts-proto`.
 2. GitHub Actions in proto repo runs `buf generate` on push.
 3. Generated files are pushed to `ap2-contracts-generated` repo.
 4. Services import generated code:
-   - `github.com/youruser/ap2-contracts-generated/gen/go/payment/v1`
-   - `github.com/youruser/ap2-contracts-generated/gen/go/order/v1`
+   - `github.com/cureeeeee/ap2-contracts-generated/gen/go/payment/v1`
+   - `github.com/cureeeeee/ap2-contracts-generated/gen/go/order/v1`
 5. Tag generated repo releases (`v1.0.0`, `v1.0.1`, ...), then update service dependencies.
 
 ## Project Structure
@@ -136,24 +129,7 @@ flowchart LR
     Notifier -->|Push updates| OrderGRPC
 ```
 
-## Evidence Checklist (Screenshots)
-- Payment service started on gRPC port.
-- Order service started on HTTP and gRPC ports.
-- Successful `POST /orders` response with transaction id.
-- Streaming client receives initial status.
-- Streaming client receives updated status right after `PUT /orders/:id/status`.
-- Payment interceptor logs method and duration.
 
-## Defense Preparation Notes
-- Explain where Clean Architecture is preserved:
-  - Business logic in `internal/usecase`.
-  - Delivery layer in HTTP/gRPC handlers only.
-- Explain how contract-first is enforced with separate proto and generated repos.
-- Show commit history from Assignment 1 (REST) to Assignment 2 (gRPC migration).
-
-## Submission
-Create ZIP file named:
-`AP2_Assignment2_name_surname_group.zip`
 
 Include:
 - source code
