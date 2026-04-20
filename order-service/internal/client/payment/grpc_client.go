@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	paymentv1 "github.com/youruser/ap2-contracts-generated/gen/go/payment/v1"
+	paymentv1 "github.com/cureeeeee/ap2-contracts-generated/gen/go/payment/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -33,7 +33,7 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) ProcessPayment(ctx context.Context, orderID string, amount float64, currency string) (string, error) {
-	resp, err := c.client.ProcessPayment(ctx, &paymentv1.PaymentRequest{
+	resp, err := c.client.ProcessPayment(ctx, &paymentv1.ProcessPaymentRequest{
 		OrderId:       orderID,
 		Amount:        amount,
 		Currency:      currency,
