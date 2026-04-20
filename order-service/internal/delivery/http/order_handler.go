@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/youruser/order-service/internal/usecase"
+	"github.com/cureeeeee/order-service/internal/usecase"
 )
 
 type Handler struct {
