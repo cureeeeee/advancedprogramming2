@@ -1,11 +1,11 @@
-module github.com/youruser/payment-service
+module github.com/cureeeeee/payment-service
 
 go 1.26
 
 require (
+	github.com/cureeeeee/ap2-contracts-generated v0.0.0
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
-	github.com/youruser/ap2-contracts-generated v0.0.0
 	google.golang.org/grpc v1.76.0
 	google.golang.org/protobuf v1.36.10
 )
@@ -17,4 +17,4 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250804133106-a7a43d27e69b // indirect
 )
 
-replace github.com/youruser/ap2-contracts-generated => ../contracts-generated
+replace github.com/cureeeeee/ap2-contracts-generated => ../contracts-generated
