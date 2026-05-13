@@ -1,11 +1,16 @@
 package config
 
-import "os"
+import (
+	"os"
+	"time"
+)
 
 type Config struct {
 	HTTPPort        string
 	GRPCPort        string
 	PaymentGRPCAddr string
+	RedisURL        string
+	CacheTTL        time.Duration
 }
 
 func Load() Config {
@@ -24,9 +29,23 @@ func Load() Config {
 		paymentAddr = "localhost:50051"
 	}
 
+	redisURL := os.Getenv("ORDER_REDIS_URL")
+	if redisURL == "" {
+		redisURL = "redis:6379"
+	}
+
+	cacheTTL := 5 * time.Minute
+	if ttl := os.Getenv("ORDER_CACHE_TTL"); ttl != "" {
+		if parsed, err := time.ParseDuration(ttl); err == nil {
+			cacheTTL = parsed
+		}
+	}
+
 	return Config{
 		HTTPPort:        httpPort,
 		GRPCPort:        grpcPort,
 		PaymentGRPCAddr: paymentAddr,
+		RedisURL:        redisURL,
+		CacheTTL:        cacheTTL,
 	}
 }

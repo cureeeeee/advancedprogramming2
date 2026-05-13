@@ -27,6 +27,7 @@ type updateStatusRequest struct {
 
 func (h *Handler) RegisterRoutes(r *gin.Engine) {
 	r.POST("/orders", h.createOrder)
+	r.GET("/orders/:id", h.getOrder)
 	r.PUT("/orders/:id/status", h.updateOrderStatus)
 }
 
@@ -51,6 +52,24 @@ func (h *Handler) createOrder(c *gin.Context) {
 		"order":          order,
 		"transaction_id": transactionID,
 	})
+}
+
+func (h *Handler) getOrder(c *gin.Context) {
+	orderID := c.Param("id")
+	order, err := h.uc.GetOrder(c.Request.Context(), orderID)
+	if err != nil {
+		status := http.StatusInternalServerError
+		if errors.Is(err, usecase.ErrValidation) {
+			status = http.StatusBadRequest
+		}
+		if errors.Is(err, usecase.ErrNotFound) {
+			status = http.StatusNotFound
+		}
+		c.JSON(status, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"order": order})
 }
 
 func (h *Handler) updateOrderStatus(c *gin.Context) {

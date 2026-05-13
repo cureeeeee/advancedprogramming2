@@ -12,6 +12,7 @@ import (
 
 	orderv1 "github.com/cureeeeee/ap2-contracts-generated/gen/go/order/v1"
 	paymentclient "github.com/cureeeeee/order-service/internal/client/payment"
+	"github.com/cureeeeee/order-service/internal/cache"
 	"github.com/cureeeeee/order-service/internal/config"
 	grpcdelivery "github.com/cureeeeee/order-service/internal/delivery/grpc"
 	httpdelivery "github.com/cureeeeee/order-service/internal/delivery/http"
@@ -20,6 +21,7 @@ import (
 	"github.com/cureeeeee/order-service/internal/usecase"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
 )
 
@@ -33,6 +35,15 @@ func main() {
 	repo := memory.NewOrderRepository()
 	notifier := pubsub.NewOrderNotifier()
 
+	redisClient := redis.NewClient(&redis.Options{
+		Addr: cfg.RedisURL,
+	})
+	defer func() {
+		_ = redisClient.Close()
+	}()
+
+	cacheClient := cache.NewRedisCache(redisClient, cfg.CacheTTL)
+
 	paymentCli, err := paymentclient.NewClient(cfg.PaymentGRPCAddr)
 	if err != nil {
 		log.Fatalf("create payment gRPC client: %v", err)
@@ -41,7 +52,7 @@ func main() {
 		_ = paymentCli.Close()
 	}()
 
-	uc := usecase.NewOrderUseCase(repo, paymentCli, notifier)
+	uc := usecase.NewOrderUseCase(repo, paymentCli, notifier, cacheClient)
 
 	grpcServer := grpc.NewServer()
 	orderv1.RegisterOrderTrackingServiceServer(grpcServer, grpcdelivery.NewTrackingServer(uc, notifier))

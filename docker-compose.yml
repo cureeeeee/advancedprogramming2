@@ -26,6 +26,12 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: ap2_redis
+    ports:
+      - '6379:6379'
+
   payment-service:
     build:
       context: .
@@ -48,10 +54,13 @@ services:
     container_name: ap2_order_service
     depends_on:
       - payment-service
+      - redis
     environment:
       ORDER_HTTP_PORT: '8080'
       ORDER_GRPC_PORT: '50052'
       PAYMENT_GRPC_ADDRESS: 'payment-service:50051'
+      ORDER_REDIS_URL: 'redis:6379'
+      ORDER_CACHE_TTL: '5m'
     ports:
       - '8080:8080'
       - '50052:50052'
@@ -63,6 +72,13 @@ services:
     container_name: ap2_notification_service
     depends_on:
       - rabbitmq
+      - redis
     environment:
       RABBITMQ_URL: 'amqp://guest:guest@rabbitmq:5672/'
       RABBITMQ_QUEUE: 'payment.completed'
+      NOTIFICATION_REDIS_URL: 'redis:6379'
+      PROVIDER_MODE: 'SIMULATED'
+      PROVIDER_FAILURE_RATE: '20'
+      PROCESSED_TTL: '24h'
+      RETRY_MAX_ATTEMPTS: '3'
+      RETRY_BASE_DELAY: '2s'
