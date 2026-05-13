@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ap2_rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  db:
+    image: postgres:15-alpine
+    container_name: ap2_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: payments
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: payment-service/Dockerfile
+    container_name: ap2_payment_service
+    depends_on:
+      - rabbitmq
+      - db
+    environment:
+      PAYMENT_GRPC_PORT: '50051'
+      RABBITMQ_URL: 'amqp://guest:guest@rabbitmq:5672/'
+      POSTGRES_URL: 'postgres://postgres:password@db:5432/payments?sslmode=disable'
+    ports:
+      - '50051:50051'
+
+  order-service:
+    build:
+      context: .
+      dockerfile: order-service/Dockerfile
+    container_name: ap2_order_service
+    depends_on:
+      - payment-service
+    environment:
+      ORDER_HTTP_PORT: '8080'
+      ORDER_GRPC_PORT: '50052'
+      PAYMENT_GRPC_ADDRESS: 'payment-service:50051'
+    ports:
+      - '8080:8080'
+      - '50052:50052'
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: notification-service/Dockerfile
+    container_name: ap2_notification_service
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: 'amqp://guest:guest@rabbitmq:5672/'
+      RABBITMQ_QUEUE: 'payment.completed'

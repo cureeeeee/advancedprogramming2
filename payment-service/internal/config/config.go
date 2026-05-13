@@ -5,7 +5,10 @@ import (
 )
 
 type Config struct {
-	GRPCPort string
+	GRPCPort     string
+	RabbitMQURL  string
+	PostgresURL  string
+	PaymentQueue string
 }
 
 func Load() Config {
@@ -14,5 +17,25 @@ func Load() Config {
 		port = "50051"
 	}
 
-	return Config{GRPCPort: port}
+	rabbitURL := os.Getenv("RABBITMQ_URL")
+	if rabbitURL == "" {
+		rabbitURL = "amqp://guest:guest@rabbitmq:5672/"
+	}
+
+	postgresURL := os.Getenv("POSTGRES_URL")
+	if postgresURL == "" {
+		postgresURL = "postgres://postgres:password@db:5432/payments?sslmode=disable"
+	}
+
+	queueName := os.Getenv("PAYMENT_EVENT_QUEUE")
+	if queueName == "" {
+		queueName = "payment.completed"
+	}
+
+	return Config{
+		GRPCPort:     port,
+		RabbitMQURL:  rabbitURL,
+		PostgresURL:  postgresURL,
+		PaymentQueue: queueName,
+	}
 }

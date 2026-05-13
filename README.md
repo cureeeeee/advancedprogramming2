@@ -3,6 +3,8 @@
 
 This repository contains the gRPC migration of the Order/Payment microservices with a contract-first workflow.
 
+The current assignment extends the system with an event-driven notification flow using RabbitMQ and Postgres for reliable payment persistence.
+
 ## Repositories
 
 - Proto repository: https://github.com/cureeeeee/advancedprogramming2/tree/main/contracts-proto
@@ -25,7 +27,8 @@ See the diagram: [ARCHITECTURE.md](ARCHITECTURE.md)
 - contracts-proto: protobuf contracts, Buf config, and GitHub Actions for remote generation.
 - contracts-generated: generated Go contracts used by services.
 - order-service: REST API + gRPC tracking server + gRPC payment client.
-- payment-service: gRPC payment server + interceptor logging.
+- payment-service: gRPC payment server + Postgres persistence + RabbitMQ publisher.
+- notification-service: RabbitMQ consumer that simulates email delivery and performs idempotent processing.
 
 ## Environment Variables
 
@@ -54,12 +57,10 @@ go mod tidy
 go run ./cmd
 ```
 
-2. Start Order Service:
+2. Start everything with Docker Compose:
 
 ```bash
-cd order-service
-go mod tidy
-go run ./cmd
+docker compose up --build
 ```
 
 3. Create order via REST:

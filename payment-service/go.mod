@@ -6,6 +6,8 @@ require (
 	github.com/cureeeeee/ap2-contracts-generated v0.0.0
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
+	github.com/lib/pq v1.12.3
+	github.com/streadway/amqp v1.0.0
 	google.golang.org/grpc v1.76.0
 	google.golang.org/protobuf v1.36.10
 )

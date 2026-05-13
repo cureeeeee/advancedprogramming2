@@ -1,4 +1,4 @@
-# Architecture Diagram
+docker version# Architecture Diagram
 
 ```mermaid
 flowchart LR
@@ -7,6 +7,9 @@ flowchart LR
     OrderUC -->|gRPC unary\nProcessPayment| PaymentGRPC[Payment Service\ngRPC Server]
     PaymentGRPC -->|Use Case| PaymentUC[Payment Use Case]
     PaymentUC --> PaymentRepo[(Payment Repository)]
+    PaymentUC -->|publish event| RabbitMQ[Message Broker\nRabbitMQ]
+
+    RabbitMQ --> Notification[Notification Service]
 
     OrderUC --> OrderRepo[(Order Repository)]
     OrderUC --> Notifier[Order Notifier PubSub]
